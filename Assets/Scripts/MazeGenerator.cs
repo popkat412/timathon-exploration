@@ -56,6 +56,7 @@ public class MazeGenerator : MonoBehaviour
 		{
 			//going through the maze :) 
 			//keep in mind i have to do this because maze generation needs to be random
+			print(pos);
 
 			int[] directionsBeenTo = { };
 			bool success = false;
