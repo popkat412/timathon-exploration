@@ -11,7 +11,6 @@ public class MazeGenerator : MonoBehaviour
 		bool[][,] mazeWall = generateMaze();
 		bool[,] mazeWallHorizontal = mazeWall[0];
 		bool[,] mazeWallVertical = mazeWall[1];
-
 		for (int i = 0; i < sizeOfMaze; i++)
 		{
 			for (int j = 0; j < sizeOfMaze; j++)
