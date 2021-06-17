@@ -5,9 +5,10 @@ using UnityEngine;
 public class MazeGenerator : MonoBehaviour
 {
 	public int sizeOfMaze = 10;
-	public GameObject wall;
+	public GameObject wallHorizontal;
+	public GameObject wallVertical;
 	void Start()
-	{ 
+	{
 		bool[][,] mazeWall = generateMaze();
 		bool[,] mazeWallHorizontal = mazeWall[0];
 		bool[,] mazeWallVertical = mazeWall[1];
@@ -15,8 +16,13 @@ public class MazeGenerator : MonoBehaviour
 		{
 			for (int j = 0; j < sizeOfMaze; j++)
 			{
-				if(mazeWallHorizontal[i,j]){
-					Instantiate(wall, new Vector3(i, 5.1f, j), Quaternion.identity);
+				if (mazeWallHorizontal[i, j])
+				{
+					Instantiate(wallHorizontal, new Vector3(i, 5.1f, j), Quaternion.Euler(0, 90, 0));
+				}
+				if (mazeWallVertical[i, j])
+				{
+					Instantiate(wallVertical, new Vector3(i, 5.1f, j), Quaternion.Euler(0, -90, 0));
 				}
 			}
 		}
@@ -35,7 +41,7 @@ public class MazeGenerator : MonoBehaviour
 		//1st index [[][][][]]
 		//1st index [[][][][]]
 		bool[,] maze = new bool[sizeOfMaze, sizeOfMaze];
-		maze[0,0] = true; maze[1,0] = true;
+		maze[0, 0] = true;
 
 		//to store if a wall exist (values are inverted btw so false means wall exists since bool is false by default)
 		bool[,] wallHorizontal = new bool[sizeOfMaze, sizeOfMaze];
@@ -44,10 +50,10 @@ public class MazeGenerator : MonoBehaviour
 		//position we are currently at (y vertical x horizontal)
 		Vector2 pos = new Vector2(0, 0);
 
-		Vector2[] directions = { new Vector2(pos.x - 1, pos.y - 1),
-														new Vector2(pos.x + 1, pos.y - 1),
-														new Vector2(pos.x - 1, pos.y + 1),
-														new Vector2(pos.x + 1, pos.y + 1) };
+		Vector2[] directions = { new Vector2(- 1, 0),
+														new Vector2( 0 , - 1),
+														new Vector2( 0 , 1),
+														new Vector2( 1, 0 ) };
 
 		Stack<Vector2> beenTo = new Stack<Vector2>();
 
@@ -55,21 +61,27 @@ public class MazeGenerator : MonoBehaviour
 		{
 			//going through the maze :) 
 			//keep in mind i have to do this because maze generation needs to be random
-			print(pos);
 
-			int[] directionsBeenTo = { };
+			int[] directionsBeenTo = new int[5];
 			bool success = false;
 
 			for (int i = 0; i < 4; i++)
 			{
-				int rand = Random.Range(0, 3);
+				int rand = Random.Range(0, 4);
 				Vector2 direction = pos + directions[rand];
+
+				int randomthing = Random.Range(1, 1000);
+				if (randomthing == 50) break;
+				print("NEWWWWW");
+				print(direction);
+				//^for debugging
 
 				if (direction.x < 0 || direction.x > sizeOfMaze - 1 || direction.y < 0 || direction.y > sizeOfMaze - 1)
 				{
 					//checking if we went out of the maze 
 					//what im doing here is explained below too 
 					// (i dw to combine for loop just to save some computational power in not running the for loop)
+					print("Ahh");
 					i--;
 					continue;
 				}
@@ -88,13 +100,16 @@ public class MazeGenerator : MonoBehaviour
 				{
 					//take it as if the for loop never run by minusing the iterations count
 					//and attempt to generate another random one
+					print("oooh");
 					i--;
 					continue;
 				}
 
-				if(maze[(int)direction.y, (int)direction.x]){
+				if (maze[(int)direction.y, (int)direction.x])
+				{
+					print("eeeeh");
 					directionsBeenTo[i] = rand;
-					i --;
+					i--;
 					continue;
 				}
 
@@ -108,8 +123,8 @@ public class MazeGenerator : MonoBehaviour
 				else
 				{
 					//vertical
-					if (direction.x < pos.x) wallHorizontal[(int)direction.y, (int)direction.x] = true;
-					else wallHorizontal[(int)direction.y, (int)pos.x] = true;
+					if (direction.x < pos.x) wallVertical[(int)direction.y, (int)direction.x] = true;
+					else wallVertical[(int)direction.y, (int)pos.x] = true;
 				}
 
 				beenTo.Push(pos);
@@ -125,6 +140,7 @@ public class MazeGenerator : MonoBehaviour
 
 			if (!success)
 			{
+				print("wow");
 				pos = beenTo.Pop();
 			}
 			if (beenTo.Count == 0)

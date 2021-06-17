@@ -246,7 +246,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sizeOfMaze: 10
-  wall: {fileID: 436386188125653204, guid: 40d7524ac40714da687ac9afb0ba5e5a, type: 3}
+  wallHorizontal: {fileID: 436386188125653204, guid: 40d7524ac40714da687ac9afb0ba5e5a, type: 3}
+  wallVertical: {fileID: 436386188125653204, guid: 0047d81267ec74adc8bfa3a7bcfd2e92, type: 3}
 --- !u!4 &451642660
 Transform:
   m_ObjectHideFlags: 0
