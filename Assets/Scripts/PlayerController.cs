@@ -12,5 +12,6 @@ public class PlayerController : MonoBehaviour
 		Vector3 velocity = direction * playerSpeed;
 		Vector3 distanceMove = velocity * Time.deltaTime;
 		transform.position += distanceMove;
+		transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f); //makes sure the player doesn't topple
 	}
 }
