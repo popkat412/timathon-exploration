@@ -13,8 +13,6 @@ public class CameraRotationController : MonoBehaviour
 	{
 		xRotation += rotationSpeedX * Input.GetAxis("Mouse X");
 		yRotation -= rotationSpeedY * Input.GetAxis("Mouse Y");
-		print(Input.GetAxis("Mouse X"));
-		print(Input.GetAxis("Mouse Y"));
-		transform.eulerAngles = new Vector3(xRotation, yRotation, 0.0f);
+		transform.eulerAngles = new Vector3(yRotation, xRotation, 0.0f);
 	}
 }
