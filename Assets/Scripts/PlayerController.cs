@@ -4,24 +4,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-	public float rotationSpeedX = 2.0f;
-	public float rotationSpeedY = 2.0f;
-	public float xRotation = 0.0f;
-	public float yRotation = 0.0f;
 	public float playerSpeed = 10.0f;
+	public CharacterController controller;
 	void Start()
 	{
 		transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 	}
 	void Update()
 	{
-		Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Jump"), Input.GetAxisRaw("Vertical"));
-		Vector3 direction = input.normalized;
-		Vector3 velocity = direction * playerSpeed;
-		Vector3 velocityInTime = velocity * Time.deltaTime;
+		float horizontal = Input.GetAxis("Horizontal");
+		float vertical = Input.GetAxis("Vertical");
 
-		//letting player move in correct rotation direction
-		transform.position += velocityInTime;
-		transform.rotation = Quaternion.Euler(0.0f, transform.rotation.y, transform.rotation.z); //makes sure the player doesn't topple
+		Vector3 distanceToMove = transform.right * horizontal + transform.forward * vertical;
+		Vector3 movement = distanceToMove * Time.deltaTime * playerSpeed;
+		controller.Move(movement);
 	}
 }

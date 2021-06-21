@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class CameraRotationController : MonoBehaviour
 {
-	public float rotationSpeedX = 2.0f;
-	public float rotationSpeedY = 2.0f;
-	public float xRotation = 0.0f;
-	public float yRotation = 0.0f;
+	public float rotationSpeed = 50f;
 
+	public Transform playerObject;
+
+	float xRotation = 0f;
+	void Start()
+	{
+		Cursor.lockState = CursorLockMode.Locked;
+		transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+	}
 	void Update()
 	{
-		xRotation += rotationSpeedX * Input.GetAxis("Mouse X");
-		yRotation -= rotationSpeedY * Input.GetAxis("Mouse Y");
-		transform.eulerAngles = new Vector3(yRotation, xRotation, 0.0f);
+		float mouseX = rotationSpeed * Input.GetAxis("Mouse X") * Time.deltaTime;
+		float mouseY = rotationSpeed * Input.GetAxis("Mouse Y") * Time.deltaTime;
+		xRotation -= mouseY;
+
+		//clamp rotation
+		xRotation = Mathf.Clamp(xRotation, -60f, 60f);
+
+		//change rotation
+		transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+		playerObject.Rotate(Vector3.up * mouseX);
 	}
 }
