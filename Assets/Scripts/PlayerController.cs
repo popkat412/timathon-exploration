@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 	public float playerSpeed = 10.0f;
+	float playerHealth = 10f;
 	public CharacterController controller;
 	void Start()
 	{
