@@ -20,4 +20,14 @@ public class PlayerController : MonoBehaviour
 		Vector3 movement = distanceToMove * Time.deltaTime * playerSpeed;
 		controller.Move(movement);
 	}
+
+	void OnCollisionEnter(Collision Collider)
+	{
+		print(Collider.gameObject.tag); 
+		if (Collider.gameObject.tag == "Trap")
+		{
+			playerHealth -= 0.5f;
+			print(playerHealth);
+		}
+	}
 }
